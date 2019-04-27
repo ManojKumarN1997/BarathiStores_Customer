@@ -1,11 +1,12 @@
 import React from 'react';
-import {View,ScrollView,TouchableOpacity, TextInput, Picker, StyleSheet, AsyncStorage,ImageBackground} from "react-native";
+import {View,ScrollView,TouchableOpacity, TextInput, Picker, StyleSheet, AsyncStorage,ImageBackground,Text} from "react-native";
 import { Avatar,Input,Icon} from 'react-native-elements';  
-import {Content,Left,Text,Card,Container, Header, Body, Right,Title, Spinner,Button} from 'native-base';
+import {Content,Left,Card,Container, Header, Body, Right,Title, Spinner,Button,Tab,Tabs,ScrollableTab} from 'native-base';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 import ToggleSwitch from 'toggle-switch-react-native'
-
-export default class SettingsScreen extends React.Component {
+import { createStackNavigator, createAppContainer } from 'react-navigation';
+import DeliveryScreen from './DeliveryScreen';
+class SettingsScreen extends React.Component {
   static navigationOptions = {
     title: 'app.json',
   };
@@ -13,7 +14,11 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <Container>
-      <ImageBackground source={require('../assets/images/gro.jpg')} 
+       <Tabs>
+       <Tab heading="My Profile" tabStyle={{backgroundColor: 'white'}} textStyle={{color: 'black'}} activeTabStyle={{backgroundColor: 'grey'}} activeTextStyle={{color: 'black', fontWeight: 'normal'}}>
+      
+      
+        <ImageBackground source={require('../assets/images/gro.jpg')} 
            style={{width: '100%', height: '100%'}}>
        <ScrollView>
       
@@ -267,7 +272,69 @@ export default class SettingsScreen extends React.Component {
  </ScrollView>
 
  </ImageBackground>
+  </Tab>
+
+  <Tab heading="My Orders" tabStyle={{backgroundColor: 'white'}} textStyle={{color: 'black'}} activeTabStyle={{backgroundColor: 'grey'}} activeTextStyle={{color: 'black', fontWeight: 'normal'}}>
+  <View>
+       <TouchableOpacity onPress={() => this.props.navigation.navigate('delivery')}>
+    <Card>
+      <View style={{flexDirection:'column'}}>
+      <View style={{flexDirection:'row',alignContent:'center',alignItems:'center',alignSelf:'center'}}>
+      <Text style={{fontWeight:'bold'}}>
+        8754743609
+      </Text>
+      <Text style={{fontWeight:'bold'}}>
+        -
+      </Text>
+      <Text style={{fontWeight:'bold'}}> {'\u20B9'} 1600 </Text>
+      </View>
+      <View style={{flexDirection:'row',alignContent:'center',alignItems:'center',alignSelf:'center'}}>
+      <Text style={{fontWeight:'bold'}}>
+        Date
+      </Text>
+      <Text style={{fontWeight:'bold'}}>
+        /
+      </Text>
+      <Text style={{fontWeight:'bold'}}>
+        Mode Of Payment
+      </Text>
+      </View>
+      </View>
+    </Card>
+    </TouchableOpacity>
+     </View>
+
+</Tab>
+
+
+
+  </Tabs>
+
+      
  </Container>
     );
+  }
+}
+
+
+const stemstack = createStackNavigator({
+  setting:SettingsScreen,
+  delivery:DeliveryScreen,
+},
+{
+  initialRouteName: 'setting',
+}
+
+);
+
+
+const AppContainer = createAppContainer(stemstack);
+
+export default class App extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
+  render() {
+    return <AppContainer />;
   }
 }
